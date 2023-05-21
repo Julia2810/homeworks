@@ -1,3 +1,3 @@
-first_name = input()
-last_name = input()
-print("Вас зовут: " + first_name + " " + last_name)
+first_name = input("Ваше имя: ")
+last_name = input("Ваша фамилия: ")
+print(f'Вас зовут: {first_name} {last_name}')

@@ -1,43 +1,43 @@
-def telefon_number(char):
-    print(char[0], end ='')
-telefon_number('88005553535')
+def print_one(char):
+    print(char, end ="")
+print_one(8)
 
-def telefon_number(char):
-    print(char[1], end ='')
-telefon_number('88005553535')
+def print_two(char):
+    print(char, end ="")
+print_one(8)
 
-def telefon_number(char):
-    print(char[2], end ='')
-telefon_number('88005553535')
+def print_three(char):
+    print(char, end ="")
+print_three(0)
 
-def telefon_number(char):
-    print(char[3], end ='')
-telefon_number('88005553535')
+def print_four(char):
+    print(char, end ="")
+print_four(0)
 
-def telefon_number(char):
-    print(char[4], end ='')
-telefon_number('88005553535')
+def print_five(char):
+    print(char, end ="")
+print_five(5)
 
-def telefon_number(char):
-    print(char[5], end ='')
-telefon_number('88005553535')
+def print_six(char):
+    print(char, end ="")
+print_six(5)
 
-def telefon_number(char):
-    print(char[6], end ='')
-telefon_number('88005553535')
+def print_seven(char):
+    print(char, end ="")
+print_seven(5)
 
-def telefon_number(char):
-    print(char[7], end ='')
-telefon_number('88005553535')
+def print_eight(char):
+    print(char, end ="")
+print_eight(3)
 
-def telefon_number(char):
-    print(char[8], end ='')
-telefon_number('88005553535')
+def print_nine(char):
+    print(char, end ="")
+print_nine(5)
 
-def telefon_number(char):
-    print(char[9], end ='')
-telefon_number('88005553535')
+def print_ten(char):
+    print(char, end ="")
+print_ten(3)
 
-def telefon_number(char):
-    print(char[10], end ='')
-telefon_number('88005553535')
+def print_zero(char):
+    print(char, end ="")
+print_zero(5)
