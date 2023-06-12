@@ -5,36 +5,34 @@ stringUtils = StringUtils()
 
 
 # проверка валидных данных, делает первую букву заглавной
-@pytest.mark.parametrize('text', [('word'), ('слово'), ('WORD'), ('wORD')])
-def test_low_word(text):
+@pytest.mark.parametrize('string, new_string', [("word", "Word"), ("слово", "Слово"), ("WORD", "WORD"), ('$%!@&', '$%!@&')])
+def test_low_word(string, new_string):
     stringUtils = StringUtils()
-    res = stringUtils.capitilize(text)
-    assert res == text.capitalize()
+    res = stringUtils.capitilize(string)
+    assert res == new_string
 
 # проверка невалидных данных, делает первую букву заглавной
-@pytest.mark.parametrize('text', [(' '), ('12345'), (' '), ('&!+-'), (12345)])
-def test_negative_low_word(text):
+def test_negative_low_word():
     stringUtils = StringUtils()
-    res = stringUtils.capitilize(text)
-    assert res == text.capitalize()
+    with pytest.raises(AttributeError):
+        stringUtils.capitilize(12345)
 
 
 
 
 
 # убирает пробел вначале строки, валидные данные
-@pytest.mark.parametrize('text', [(' word'), (' WORD'), (' word '), (' слово')])
-def test_positive_space_word(text):
+@pytest.mark.parametrize('string, new_string', [(' word', 'word'), (' WORD', 'WORD'), (' word ', 'word '), (' слово', 'слово'), (' 12345', '12345'), ('', ''), (' ', '')])
+def test_positive_space_word(string, new_string):
     stringUtils = StringUtils()
-    res = stringUtils.trim(text)
-    assert res == text.lstrip()
+    res = stringUtils.trim(string)
+    assert res == new_string
 
 # убирает пробел вначале строки, невалидные данные
-@pytest.mark.parametrize('text', [('word'), (12345), (' '), (' с')])
-def test_negative_space_word(text):
+def test_negative_space_word():
     stringUtils = StringUtils()
-    res = stringUtils.trim(text)
-    assert res == text.lstrip()
+    with pytest.raises(AttributeError):
+        stringUtils.trim( 12345)
     
     
     
@@ -70,11 +68,11 @@ def test_negative_symbol(string, symbol):
 
 
 # Удаляет все подстроки из переданной строки
-@pytest.mark.parametrize('string, symbol, result', [("Tester", "er", "Test"), ("Tes ter", " ", "Tester")])
+@pytest.mark.parametrize('string, symbol, result', [("Tester", "er", "Test"), ("Tes ter", " ", "Tester"), ("Tes-ter", "-", "Tester")])
 def test_delete_symbol(string, symbol, result):
     stringUtils = StringUtils()
     res = stringUtils.delete_symbol(string, symbol)
-    assert res == str(result)
+    assert res == result
 
 
 
