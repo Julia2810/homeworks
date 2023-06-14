@@ -5,42 +5,51 @@ stringUtils = StringUtils()
 
 
 # проверка валидных данных, делает первую букву заглавной
-@pytest.mark.parametrize('string, new_string', [("word", "Word"), ("слово", "Слово"), ("WORD", "WORD"), ('$%!@&', '$%!@&')])
-def test_low_word(string, new_string):
+@pytest.mark.parametrize('string, new_string',[("word", "Word"), ("слово", "Слово"), ("WORD", "WORD"), ('$%!@&', '$%!@&')])
+def test_positive_low_word(string, new_string):
     stringUtils = StringUtils()
     res = stringUtils.capitilize(string)
     assert res == new_string
 
 # проверка невалидных данных, делает первую букву заглавной
-def test_negative_low_word():
+@pytest.mark.parametrize('string, new_string',[("", ""), (12345, 12345), (" ", " "), ([], [])])
+def test_negative_low_word(string, new_string):
     stringUtils = StringUtils()
-    with pytest.raises(AttributeError):
-        stringUtils.capitilize(12345)
+    res = stringUtils.capitilize(string)
+    assert res == new_string
 
 
 
 
 
 # убирает пробел вначале строки, валидные данные
-@pytest.mark.parametrize('string, new_string', [(' word', 'word'), (' WORD', 'WORD'), (' word ', 'word '), (' слово', 'слово'), (' 12345', '12345'), ('', ''), (' ', '')])
+@pytest.mark.parametrize('string, new_string', [(' word', 'word'), (' WORD', 'WORD'), (' word ', 'word '), (' слово', 'слово'),(' 12345', '12345'), ('', ''), (' ', '')])
 def test_positive_space_word(string, new_string):
     stringUtils = StringUtils()
     res = stringUtils.trim(string)
     assert res == new_string
 
 # убирает пробел вначале строки, невалидные данные
-def test_negative_space_word():
+@pytest.mark.parametrize('string, new_string',[("", ""), ('     12345', '12345'), (" ", " ")])
+def test_negative_spase_word(string, new_string):
     stringUtils = StringUtils()
-    with pytest.raises(AttributeError):
-        stringUtils.trim( 12345)
-    
-    
-    
+    res = stringUtils.capitilize(string)
+    assert res == new_string
 
 
-# убирает разделители, возвращает список строк
-@pytest.mark.parametrize('string, delimiter, list', [('1:2:3:4', ':', ["1", "2", "3", "4"]), ('1,2,3,4', ',', ["1", "2", "3", "4"])])
-def test_to_list(string, delimiter, list):
+
+
+
+# убирает разделители, возвращает список строк, валидные данные
+@pytest.mark.parametrize('string, delimiter, list', [('1:2:3:4', ':', ["1", "2", "3", "4"]), ('1,2,3,4', ',', ["1", "2", "3", "4"]), ('', '', []), ('1 2 3 4', ' ', ['1', '2', '3', '4'])])
+def test_positive_to_list(string, delimiter, list):
+    stringUtils = StringUtils()
+    res = stringUtils.to_list(string, delimiter)
+    assert res == list
+
+# убирает разделители, возвращает список строк, невалидные данные
+@pytest.mark.parametrize('string, delimiter, list', [('1::2', '::', ['1', '2']), ('1234', '', ['1','2','3','4'])])
+def test_negative_to_list(string, delimiter, list):
     stringUtils = StringUtils()
     res = stringUtils.to_list(string, delimiter)
     assert res == list
@@ -50,15 +59,16 @@ def test_to_list(string, delimiter, list):
 
 
 # Возвращает `True`, если строка содержит искомый символ
-@pytest.mark.parametrize('string, symbol', [("Word", "o"), ("Word", "or"), ("12345", "34")])
-def test_positive_symbol(string, symbol):
+@pytest.mark.parametrize('string, symbol', [("Word", "o"), ("Word", "or"), ("12345", "34"), (pytest.param("", "", marks=pytest.mark.xfail)), (pytest.param(1234, 34, marks=pytest.mark.xfail(reason="AttributError")))])
+def test_true_symbol(string, symbol):
     stringUtils = StringUtils()
     res = stringUtils.contains(string, symbol)
     assert res == True
 
+
 # Возвращает `False`, если строка не содержит искомый символ
-@pytest.mark.parametrize('string, symbol', [("Word", "i")])
-def test_negative_symbol(string, symbol):
+@pytest.mark.parametrize('string, symbol', [("Word", "i"), (pytest.param("Word", "o", marks=pytest.mark.xfail)), (pytest.param(1234, 34, marks=pytest.mark.xfail(reason="AttributError")))])
+def test_false_symbol(string, symbol):
     stringUtils = StringUtils()
     res = stringUtils.contains(string, symbol)
     assert res == False
@@ -67,9 +77,16 @@ def test_negative_symbol(string, symbol):
 
 
 
-# Удаляет все подстроки из переданной строки
+# Удаляет все подстроки из переданной строки, валидные проверки
 @pytest.mark.parametrize('string, symbol, result', [("Tester", "er", "Test"), ("Tes ter", " ", "Tester"), ("Tes-ter", "-", "Tester")])
-def test_delete_symbol(string, symbol, result):
+def test_positive_delete_symbol(string, symbol, result):
+    stringUtils = StringUtils()
+    res = stringUtils.delete_symbol(string, symbol)
+    assert res == result
+
+# Удаляет все подстроки из переданной строки, невалидные проверки
+@pytest.mark.parametrize('string, symbol, result', [("", "", ""), (" ", " ", ""), ("Tes---ter", "---", "Tester")])
+def test_negative_delete_symbol(string, symbol, result):
     stringUtils = StringUtils()
     res = stringUtils.delete_symbol(string, symbol)
     assert res == result
@@ -78,16 +95,31 @@ def test_delete_symbol(string, symbol, result):
 
 
 
-# Возвращает `True`, если строка начинается с заданного символа и `False` - если нет
+# Возвращает `True`, если строка начинается с заданного символа, валидные проверки
 @pytest.mark.parametrize('string, symbol', [("Start", "S"), ("12345", "12")])
-def test_positive_starts_with(string, symbol):
+def test_positive_true_starts_with(string, symbol):
     stringUtils = StringUtils()
     res = stringUtils.starts_with(string, symbol)
     assert res == True
 
-# Возвращает `False`, если строка не начинается с заданного символа
+# Возвращает `True`, если строка начинается с заданного символа, невалидные проверки
+@pytest.mark.parametrize('string, symbol', [(" Start", " "), (12345, 12), ('',''), ('Start', 'Y')])
+def test_negative_true_starts_with(string, symbol):
+    stringUtils = StringUtils()
+    res = stringUtils.starts_with(string, symbol)
+    assert res == True
+
+
+# Возвращает `False`, если строка не начинается с заданного символа, валидные проверки
 @pytest.mark.parametrize('string, symbol', [("Start", "W"), ("Start", " ")])
-def test_negative_starts_with(string, symbol):
+def test_positive_false_starts_with(string, symbol):
+    stringUtils = StringUtils()
+    res = stringUtils.starts_with(string, symbol)
+    assert res == False
+
+# Возвращает `False`, если строка не начинается с заданного символа, невалидные проверки
+@pytest.mark.parametrize('string, symbol', [(" ", " "), ("Start", "S")])
+def test_negative_false_starts_with(string, symbol):
     stringUtils = StringUtils()
     res = stringUtils.starts_with(string, symbol)
     assert res == False
@@ -96,16 +128,31 @@ def test_negative_starts_with(string, symbol):
 
 
 
-# Возвращает `True`, если строка заканчивается заданным символом и `False` - если нет
-@pytest.mark.parametrize('string, symbol', [("Start", "t")])
-def test_positive_end_with(string, symbol):
+# Возвращает `True`, если строка заканчивается заданным символом, валидные проверки
+@pytest.mark.parametrize('string, symbol', [("Start", "t"), ('Start ', ' ')])
+def test_positive_true_end_with(string, symbol):
     stringUtils = StringUtils()
     res = stringUtils.end_with(string, symbol)
     assert res == True
 
-# Возвращает `False`, если строка не заканчивается заданным символом
+# Возвращает `True`, если строка заканчивается заданным символом, невалидные проверки
+@pytest.mark.parametrize('string, symbol', [("Start", "o"), ('', ''), (' ', ' ')])
+def test_negative_true_end_with(string, symbol):
+    stringUtils = StringUtils()
+    res = stringUtils.end_with(string, symbol)
+    assert res == True
+
+
+# Возвращает `False`, если строка не заканчивается заданным символом, валидные проверки
 @pytest.mark.parametrize('string, symbol', [("Start", "r"), ("Start", ".")])
-def test_negative_end_with(string, symbol):
+def test_positive_false_end_with(string, symbol):
+    stringUtils = StringUtils()
+    res = stringUtils.end_with(string, symbol)
+    assert res == False
+
+# Возвращает `False`, если строка не заканчивается заданным символом, невалидные проверки
+@pytest.mark.parametrize('string, symbol', [("Start", "t"), (" ", " ")])
+def test_negative_false_end_with(string, symbol):
     stringUtils = StringUtils()
     res = stringUtils.end_with(string, symbol)
     assert res == False
@@ -114,16 +161,34 @@ def test_negative_end_with(string, symbol):
 
 
 
-# Возвращает `True`, если строка пустая
+# Возвращает `True`, если строка пустая, валидные данные
 @pytest.mark.parametrize('string', [(" ")])
-def test_positive_is_empty(string):
+def test_positive_true_is_empty(string):
     stringUtils = StringUtils()
     res = stringUtils.is_empty(string)
     assert res == True
 
-# Возвращает `False`, если строка не пустая
+# Возвращает `True`, если строка пустая, невалидные данные
+@pytest.mark.parametrize('string', [("Start"), (12345)])
+def test_negative_true_is_empty(string):
+    stringUtils = StringUtils()
+    res = stringUtils.is_empty(string)
+    assert res == True
+
+
+
+
+
+# Возвращает `False`, если строка не пустая, валидные данные
 @pytest.mark.parametrize('string', [("Start")])
-def test_negative_is_empty(string):
+def test_positive_false_is_empty(string):
+    stringUtils = StringUtils()
+    res = stringUtils.is_empty(string)
+    assert res == False
+
+# Возвращает `False`, если строка не пустая, невалидные данные
+@pytest.mark.parametrize('string', [(" "), ('')])
+def test_negative_false_is_empty(string):
     stringUtils = StringUtils()
     res = stringUtils.is_empty(string)
     assert res == False
@@ -132,9 +197,16 @@ def test_negative_is_empty(string):
 
 
 
-# Преобразует список элементов в строку с указанным разделителем
-@pytest.mark.parametrize('list, joiner, string',[(["New", "York"], ":", "New:York"), (["New", "York"], "-", "New-York"),(["New", "York"], ";", "New;York"), (["New", "York"], ",", "New,York")])
-def test_list_to_string(list, joiner, string):
+# Преобразует список элементов в строку с указанным разделителем, валидные проверки
+@pytest.mark.parametrize('list, joiner, string', [(["New", "York"], ":", "New:York"), (["New", "York"], "-", "New-York"), (["New", "York"], ";", "New;York"), (["New", "York"], ",", "New,York")])
+def test_positive_list_to_string(list, joiner, string):
+    stringUtils = StringUtils()
+    res = stringUtils.list_to_string(list, joiner)
+    assert res == string
+
+# Преобразует список элементов в строку с указанным разделителем, невалидные проверки
+@pytest.mark.parametrize('list, joiner, string', [(["New", "York"], "::", "New::York"), ([" ", " "], "-", " - "), ([], "", "")])
+def test_negative_list_to_string(list, joiner, string):
     stringUtils = StringUtils()
     res = stringUtils.list_to_string(list, joiner)
     assert res == string
