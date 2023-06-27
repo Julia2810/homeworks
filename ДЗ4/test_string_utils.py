@@ -233,3 +233,4 @@ def test_negative_list_to_string(list, joiner, string):
     stringUtils = StringUtils()
     res = stringUtils.list_to_string(list, joiner)
     assert res == string
+    
