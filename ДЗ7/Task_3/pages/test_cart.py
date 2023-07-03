@@ -1,10 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import pytest
-
 from LoginPage import LoginPage
 from ProdPage import ProdPage
 from CartPage import CartPage
@@ -31,6 +27,6 @@ def test_total_of_cart():
     information_page.click_on_continue()
 
     overview_page = OverviewPage(browser)
-    overview_page.write_of_total()
+    assert overview_page.write_of_total() == 'Total: $58.29'
     
     browser.quit()
