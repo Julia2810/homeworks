@@ -34,7 +34,7 @@ def test_add_one_employee():
 
     len_after = len(body)
 
-    assert len_after - len_before == 0
+    assert len_after - len_before == 1
     assert new_employee['id'] == new_id
 
 

@@ -38,7 +38,7 @@ class Employee:
 
     # получение списка сотрудников одной компании
     def get_list_employee(self, id):
-        resp = requests.get(self.url + '/employee' + str(id))
+        resp = requests.get(self.url + '/employee' + '?company=' + str(id))
         return resp.json()
 
 
