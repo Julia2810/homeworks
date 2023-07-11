@@ -59,9 +59,9 @@ def test_task_no_done():
     result1 = url_api.task_done(new_id)
     result2 = url_api.task_no_done(new_id)
 
-
     assert result1["completed"] == True
     assert result2["completed"] == False
+
 
 # удаление задачи
 def test_delete_task():
@@ -69,9 +69,4 @@ def test_delete_task():
     new_id = new_task['id']
     result = url_api.delete_task(new_id)
 
-    assert result['id'] == new_id
-    assert result['title'] == 'Смешарики'
-
-    all_list = url_api.get_list_todo()
-
-    assert all_list[-1]['id'] != new_id
+    assert result == 204

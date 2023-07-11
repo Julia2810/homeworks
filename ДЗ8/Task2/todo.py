@@ -21,20 +21,19 @@ class ToDo:
 
 
 # переменинование названия задачи
-    def rename_task(self, new_id, new_name):
-
+    def rename_task(self, id, new_name):
         name = {
             "title": new_name
         }
-        result = requests.patch(self.url + str(new_id), json=name)
+        result = requests.patch(self.url + str(id), json=name)
         return result.json()
 
 
 # получение конкретной задачи из списка
-
     def get_one_task(self, id):
         result = requests.get(self.url + str(id))
         return result.json()
+
 
 # oтметка задачи «Выполнена»
     def task_done(self, id, completed = True):
@@ -44,8 +43,8 @@ class ToDo:
         result = requests.patch(self.url + str(id), json=body)
         return result.json()
 
-# cнятие отметки «Выполнена»
 
+# cнятие отметки «Выполнена»
     def task_no_done(self, id, completed = False):
         body = {
             "completed": completed,
@@ -53,7 +52,8 @@ class ToDo:
         result = requests.patch(self.url + str(id), json=body)
         return result.json()
 
+
 # удаление задачи
     def delete_task(self, id):
         result = requests.delete(self.url + str(id))
-        return result.json()
+        return result.status_code
