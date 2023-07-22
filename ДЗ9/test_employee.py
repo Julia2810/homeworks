@@ -17,9 +17,9 @@ def test_get_company_list():
     
 # получение списка сотрудников из одной компании
 def test_list_employee():
-    companies_list_api = api.get_list_employee(40)
-    companies_list_db = db.get_list_employee(40)
-    assert len(companies_list_api) == len(companies_list_db)
+    employee_list_api = api.get_list_employee(40)
+    employee_list_db = db.get_list_employee(40)
+    assert len(employee_list_api) == len(employee_list_db)
     
     
 #добавление одного сотрудника
@@ -53,8 +53,6 @@ def test_get_employee():
     
     max_id = db.get_max_id()
     new_employee = api.get_employee(max_id)
-
-    db.delete_employee(max_id)
 
     assert new_employee['id'] == max_id
    
