@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 import psycopg2
-from EployeeAPI import Employee
-from EployeeSQL import Table
+from CompanyAPI import Employee
+from CompanyTable import Table
 
 
 api = Employee("https://x-clients-be.onrender.com")
@@ -50,7 +50,7 @@ def test_add_one_employee():
 #получение сотрудника по id
 def test_get_employee():
     db.add_employee('Sergey', 'Ivanov', 'Petrovich', '+79954684585', 'https://avatars.mds.yandex.net/i?id=16cab1e80a8c3d417faf0d45eab6537a70a00021-8185177-images-thumbs&n=13', 40)
-    
+
     max_id = db.get_max_id()
     new_employee = api.get_employee(max_id)
 
@@ -61,7 +61,7 @@ def test_get_employee():
 #изменение информации о сотруднике
 def test_edit_employee():
     db.add_employee('Lev', 'Sidorov', 'Petrovich', '+75658456956', 'https://happypik.ru/wp-content/uploads/2019/09/njashnye-kotiki8.jpg', 40)
-   
+
     max_id = db.get_max_id()
 
     id_new_employee = max_id
