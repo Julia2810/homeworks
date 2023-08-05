@@ -15,6 +15,9 @@ db = Table("postgresql://x_clients_user:2hdwfMCel2i7SyZeOghoUVVOOwnpyfEL@dpg-chd
 @allure.feature("READ")
 @allure.severity("TRIVIAL")
 def test_get_company_list():
+    """
+    Тест на сравнение длины списка компаний, полученного через API и запроса к БД
+    """
     with allure.step("Получить список компаний через API"):
         companies_list_api = api.get_company_list()
 
@@ -31,6 +34,9 @@ def test_get_company_list():
 @allure.feature("READ")
 @allure.severity("TRIVIAL")
 def test_list_employee():
+    """
+    Тест на сравнение длины списка сотрудников, полученного через API и запроса к БД
+    """
     with allure.step("Получить список сотрудников через API"):
         employee_list_api = api.get_list_employee(40)
 
@@ -47,6 +53,9 @@ def test_list_employee():
 @allure.feature("CREATE")
 @allure.severity("MAJOR")
 def test_add_one_employee():
+    """
+    Тест на создание нового сотрудника, проверка длины списка сотрудников до добавления нового и после
+    """
     with allure.step("Получить список сотрудников через API"):
         body_api = api.get_list_employee(40)
 
@@ -83,6 +92,9 @@ def test_add_one_employee():
 @allure.feature("READ")
 @allure.severity("TRIVIAL")
 def test_get_employee():
+    """
+    Тест на получение информации о сотруднике по id 
+    """
     with allure.step("Создать нового сотрудника через запрос к БД"):
         db.add_employee('Sergey', 'Ivanov', 'Petrovich', '+79954684585', 'https://avatars.mds.yandex.net/i?id=16cab1e80a8c3d417faf0d45eab6537a70a00021-8185177-images-thumbs&n=13', 40)
         max_id = db.get_max_id()
@@ -101,6 +113,9 @@ def test_get_employee():
 @allure.feature("CREATE")
 @allure.severity("MAJOR")
 def test_edit_employee():
+    """
+    Тест на изменение данных сотрудника
+    """
     with allure.step("Создать нового сотрудника через запрос к БД"):
         db.add_employee('Lev', 'Sidorov', 'Petrovich', '+75658456956', 'https://happypik.ru/wp-content/uploads/2019/09/njashnye-kotiki8.jpg', 40)
         max_id = db.get_max_id()

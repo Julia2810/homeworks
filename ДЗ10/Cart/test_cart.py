@@ -14,6 +14,9 @@ import allure
 @allure.feature("CREATE")
 @allure.severity("HIGH")
 def test_total_of_cart():
+    """
+    Тест на проверку итоговой суммы заказа 
+    """
     browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
     with allure.step("Проходим авторизацию, заполняем поля username и password, нажимаем кнопку Login"):

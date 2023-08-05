@@ -11,6 +11,9 @@ import allure
 @allure.feature("READ")
 @allure.severity("HIGH")
 def test_calculator():
+    """
+    Тест на проверку суммы двух чисел после ожидания появления результата на экране
+    """
     browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     calculator = Calculator(browser)
 

@@ -9,6 +9,9 @@ import allure
 @allure.feature("CREATE")
 @allure.severity("HIGH")
 def test_input():
+    """
+    Тест на проверку цветов полей
+    """
     browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     main_page = MainPage(browser)
 
